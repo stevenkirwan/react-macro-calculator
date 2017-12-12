@@ -1,3 +1,3 @@
-### Macronutrient calculator build with React.
+### Macronutrient calculator built with React.
 
 More to come...........
