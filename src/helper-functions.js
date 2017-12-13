@@ -29,7 +29,7 @@
 // Get REE ( Resting energy expenditure )
 export const getREE = (weight, height, age, gender) => {
     let REE;
-    if(gender === 'male'){
+    if(gender === 'Male'){
       REE = Math.round((10 * weight) + (6.25 * height) - (5 * age) + 5);
       return REE;
     }else{
@@ -65,10 +65,10 @@ export const getTDEE = (r, l) => {
 
 // Get user's goal
 export const getGoal = (goal, tdee) => {
-    if(goal === 'lose'){
+    if(goal === 'Lose'){
         var lose = Math.round(tdee - (tdee * 0.20));
         return lose;
-    }else if(goal === 'gain'){
+    }else if(goal === 'Gain'){
         var gain = Math.round(tdee + (tdee * 0.20));
         return gain;
     }else{

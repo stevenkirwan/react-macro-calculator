@@ -36,31 +36,45 @@ class App extends Component {
 
     this.state = {
       intState: false,
-      age:29,
+      age: 29,
       height: 183,
       weight: 88,
-      gender: 'male',
+      gender: 'Male',
+      genderSelections: ['Male', 'Female'],
+      goal: 'Maintain',
+      goalSelections: ['Maintain', 'Lose', 'Gain'],
+      calories: '',
       activityLevel: 'sedentary',
-      goal: 'maintain',
-      protein: '',
-      fat: '',
-      carbs: '',
-      calories: ''
+      activityLevelOptions: [
+        {
+          value:'sedentary',
+          option: 'Sedentary'
+        },
+        {
+          value: 'lightActivity',
+          option: 'Light activity'},
+        {
+          value: 'moderateActivity', 
+          option: 'Moderate activity'
+        },
+        {
+          value: 'veryActive', 
+          option: 'Very Active'
+        }
+      ],
+      activityLevelSelection: 'Sedentary'
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleGenderOptionChange = this.handleGenderOptionChange.bind(this);
-    this.handleGoalOptionChange = this.handleGoalOptionChange.bind(this);
     this.renderResult = this.renderResult.bind(this);
+    this.getResult = this.getResult.bind(this);
   }
 
-  handleSubmit(e){
-    e.preventDefault();
-
+  getResult(){
     // Get Activily level
     const activityLevel = func.getActivityLevel(this.state.activityLevel);
-
+    
     // Get REE ( Resting energy expenditure )
     const REE = func.getREE(this.state.weight, this.state.height, this.state.age, this.state.gender);
 
@@ -69,40 +83,22 @@ class App extends Component {
 
     // Get calories based on users goal (maintain, lose, gain weight)
     const calories = func.getGoal(this.state.goal, TDEE);
-
-    // Convert kg to lbs 
-    const lbs = func.getKilos(this.state.weight);
-    
-    const protein = func.getProtein(lbs);
-    const fat = func.getFat(this.state.calories);
-    const carbs = func.getTotalCarbs(this.state.protein, this.state.fat, this.state.calories);
-    
+  
     // Update state with new result
     this.setState({
       intState: true,
       calories,
-      protein,
-      fat,
-      carbs
     })
+  }
 
+  handleSubmit(e){
+    e.preventDefault();
+    this.getResult();
   }
 
   handleChange(e){
     this.setState({
       [e.target.name]: e.target.value
-    })
-  }
-
-  handleGenderOptionChange(e) {
-    this.setState({
-      gender: e.target.value
-    })
-  }
-
-  handleGoalOptionChange(e) {
-    this.setState({
-      goal: e.target.value
     })
   }
 
@@ -121,8 +117,6 @@ class App extends Component {
       <div className="App">
         <Calculator 
           handleChange={this.handleChange}
-          handleGenderOptionChange={this.handleGenderOptionChange}
-          handleGoalOptionChange={this.handleGoalOptionChange}
           handleSubmit={this.handleSubmit}
           {...this.state}
         />
