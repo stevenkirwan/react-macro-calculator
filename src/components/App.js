@@ -29,6 +29,8 @@ import React, { Component } from 'react';
 import * as func from '../helper-functions';
 import Calculator from './Calculator';
 
+import '../styles/global.scss';
+
 class App extends Component {
 
   constructor(props){
