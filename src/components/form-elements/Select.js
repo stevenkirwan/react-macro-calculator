@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Select = (props) => (  
-  <div className="form-group">
-    <label className="form-label">{props.title}</label>
+  <div className="form-row">
+    <label>{props.title}</label>
     <select
       name={props.name}
       value={props.selectedOption}
-      onChange={props.controlFunc}
-      className="form-control">
+      onChange={props.controlFunc}>
       {props.options.map(opt => {
         return (
           <option

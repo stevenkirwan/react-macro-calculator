@@ -84,8 +84,13 @@ export const getKilos = (weight) => {
 
 // Get protein
 export const getProtein = (weight) => {
-    var protein = Math.round((weight * 1));
+    var protein = Math.ceil((weight * .825));
     return protein;
+}
+
+export const proteinCalories = (protein) => {
+    var total = Math.round((protein * 4));
+    return total;
 }
 
 export const getFat = (goal) => {
@@ -93,7 +98,17 @@ export const getFat = (goal) => {
     return fats;
 }
 
-export const getTotalCarbs = (totalProtein, totalFat, cals) => {
-    var carbs = Math.abs(((totalProtein + totalFat) - cals) / 4);
+export const fatCalories = (fat) => {
+    var total = Math.round((fat * 9));
+    return total;
+}
+
+export const calorieBalance = (protein, fat, cals) => {
+    var total = cals - (protein + fat);
+    return total;
+}
+
+export const getTotalCarbs = (cals) => {
+    var carbs = Math.round(cals / 4);
     return carbs;
 }

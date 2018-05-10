@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const SingleInput = (props) => (  
-  <div className="form-group">
-    <label className="form-label">{props.title}</label>
+  <div className="form-row">
+    <label>{props.title}</label>
     <input
-      className="form-control"
       name={props.name}
       type={props.inputType}
       value={props.content}

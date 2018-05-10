@@ -2,14 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const CheckboxOrRadioGroup = (props) => (  
-  <div className="form-group">
-    <label className="form-label">{props.title}</label>
-    <div className="form-check form-check-inline">
+  <div>
+    <label>{props.title}</label>
+    <div className="form-row inline">
       {props.options.map(opt => {
         return (
-          <label key={opt} className="form-check-label">
+          <label 
+            key={opt} 
+            className="label--radio"
+          >
             <input
-              className="form-checkbox"
+              className="redio"
               name={props.setName}
               onChange={props.controlFunc}
               value={opt}

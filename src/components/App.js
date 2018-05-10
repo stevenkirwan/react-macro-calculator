@@ -64,12 +64,14 @@ class App extends Component {
           option: 'Very Active'
         }
       ],
-      activityLevelSelection: 'Sedentary'
+      activityLevelSelection: 'Sedentary',
+      protein: '',
+      fat: '',
+      carbs: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.renderResult = this.renderResult.bind(this);
     this.getResult = this.getResult.bind(this);
   }
 
@@ -85,11 +87,33 @@ class App extends Component {
 
     // Get calories based on users goal (maintain, lose, gain weight)
     const calories = func.getGoal(this.state.goal, TDEE);
+
+    // Convert kg to lbs
+    const weightLbs = func.getKilos(this.state.weight);
+
+    // Get grams of protein at .825 body weight in lbs
+    const protein = func.getProtein(weightLbs);
+    // Get calories from protein 
+    const proteinCalories = func.proteinCalories(protein);
+
+    // Get grams of fat
+    const fat = func.getFat(calories);
+    // Get calories from fat
+    const fatCalories = func.fatCalories(fat);
+    
+    // Get leftover calories for carbs 
+    const calorieBalance = func.calorieBalance(proteinCalories, fatCalories, calories);
+
+    // Get carbs
+    const carbs = func.getTotalCarbs(calorieBalance);
   
     // Update state with new result
     this.setState({
       intState: true,
       calories,
+      protein,
+      fat,
+      carbs
     })
   }
 
@@ -104,16 +128,6 @@ class App extends Component {
     })
   }
 
-  renderResult(){
-    if(this.state.intState){
-      return (
-        <div className="jumbotron">
-          <h1>{this.state.calories}</h1>
-        </div>
-      )
-    }
-  }
-
   render() {
     return (
       <div className="App">
@@ -122,9 +136,6 @@ class App extends Component {
           handleSubmit={this.handleSubmit}
           {...this.state}
         />
-
-        {this.renderResult()}
-        
       </div>
     );
   }
