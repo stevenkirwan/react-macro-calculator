@@ -29,17 +29,47 @@ export default class Calculator extends Component {
                         required={true}
                     />
 
-                    <SingleInput 
-                        title="Height (cm)"
-                        name="height"
-                        inputType={'text'}
-                        content={this.props.height} 
-                        controlFunc={this.props.handleChange}
-                        placeholder="Height"
-                        required={true}
-                    />
+                    <button href="#" onClick={this.props.handleHeightToggle} disabled={!this.props.feetRow}>Cm</button>
+                    <button href="#" onClick={this.props.handleHeightToggle} disabled={!this.props.cm}>Feet</button>
 
-                    <button href="#" onClick={this.props.handleWeightToggle}>{this.props.kg ? 'lbs' : 'kg'}</button>
+                    {(this.props.cm) && 
+                        <SingleInput 
+                            title="Height (cm)"
+                            name="height"
+                            inputType={'text'}
+                            content={this.props.height} 
+                            controlFunc={this.props.handleChange}
+                            placeholder="Height"
+                            required={true}
+                        />
+                    }
+
+                    {(this.props.feetRow) && 
+                        <div className="feet">
+                            <SingleInput 
+                                title="Height (feet)"
+                                name="feet"
+                                inputType={'text'}
+                                content={this.props.feet} 
+                                controlFunc={this.props.handleChange}
+                                placeholder="Feet"
+                                required={true}
+                            />
+
+                            <SingleInput 
+                                title="Height (inches)"
+                                name="inches"
+                                inputType={'text'}
+                                content={this.props.inches} 
+                                controlFunc={this.props.handleChange}
+                                placeholder="Inches"
+                                required={true}
+                            />
+                        </div>
+                    }
+
+                    <button href="#" onClick={this.props.handleWeightToggle} disabled={!this.props.lbs}>Kg</button>
+                    <button href="#" onClick={this.props.handleWeightToggle} disabled={!this.props.kg}>Lbs</button>
 
                     {(this.props.kg) && 
                         <SingleInput 

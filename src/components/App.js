@@ -38,8 +38,12 @@ class App extends Component {
 
     this.state = {
       intState: false,
-      age: '33',
-      height: '170',
+      age: '',
+      height: '',
+      cm: true,
+      feetRow: false,
+      feet: '',
+      inches: '',
       weight: '',
       kg: true,
       lbs: false,
@@ -76,6 +80,7 @@ class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getResult = this.getResult.bind(this);
     this.handleWeightToggle = this.handleWeightToggle.bind(this);
+    this.handleHeightToggle = this.handleHeightToggle.bind(this);
   }
 
   getResult(){
@@ -97,6 +102,14 @@ class App extends Component {
       // Get calories based on users goal (maintain, lose, gain weight)
       const calories = func.getGoal(this.state.goal, TDEE);
 
+      if(this.state.feetRow){
+        const height = func.feetToCm(this.state.feet, this.state.inches).slice(0, 3);;
+        console.log(height);
+        this.setState({
+          height
+        })
+      }
+
       // Convert kg to lbs
       let weightLbs = this.state.weight;
       if(this.state.kg){
@@ -104,6 +117,9 @@ class App extends Component {
       }else{
         weightLbs = this.state.weight;
       }
+
+      // const inches = func.feetToCm(this.state.feet, this.state.inches);
+      // console.log(inches);
 
       // Get grams of protein at .825 body weight in lbs
       const protein = func.getProtein(weightLbs);
@@ -150,6 +166,14 @@ class App extends Component {
     })
   }
 
+  handleHeightToggle(e) {
+    e.preventDefault();
+    this.setState({
+      cm: !this.state.cm,
+      feetRow: !this.state.feetRow
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -157,6 +181,7 @@ class App extends Component {
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
           handleWeightToggle={this.handleWeightToggle}
+          handleHeightToggle={this.handleHeightToggle}
           {...this.state}
         />
       </div>

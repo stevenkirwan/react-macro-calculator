@@ -75,6 +75,12 @@ button{
     display: inline-block;
     border: 1px solid transparent;
     text-align: center;
+
+    &:disabled{
+        background-color: #dfe0e4;
+        color: #AFB1BA;
+        opacity: 0.7;
+    }
 }
 
 @media only screen and (min-width:1024px) {

@@ -20,10 +20,6 @@ SingleInput.propTypes = {
   title: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   controlFunc: PropTypes.func.isRequired,
-  content: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]).isRequired,
   placeholder: PropTypes.string,
 };
 

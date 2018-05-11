@@ -117,3 +117,9 @@ export const lbsToKg = (lbs) => {
     var kg = Math.round(lbs / 2.2046);
     return kg;
 }
+
+export const feetToCm = (feet, inch) => {
+    var inches = feet * 12;
+    var cm = (inches + inch) / 0.39370;
+    return cm.toFixed(2);
+}

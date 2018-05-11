@@ -8,5 +8,10 @@
 @media only screen and (min-width:1024px) {
     .calculator{
         @include rem(margin-top, 40px);
+
+        .feet .form-row{
+            float:left;
+            width:50%;
+        }
     }
 }
