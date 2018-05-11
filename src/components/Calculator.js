@@ -13,6 +13,7 @@ export default class Calculator extends Component {
           )
         }
     }
+    
     render() {
         return (
             <div className="calculator">
@@ -25,6 +26,7 @@ export default class Calculator extends Component {
                         content={this.props.age} 
                         controlFunc={this.props.handleChange}
                         placeholder="Age"
+                        required={true}
                     />
 
                     <SingleInput 
@@ -34,16 +36,33 @@ export default class Calculator extends Component {
                         content={this.props.height} 
                         controlFunc={this.props.handleChange}
                         placeholder="Height"
+                        required={true}
                     />
 
-                    <SingleInput 
-                        title="Weight (kg)"
-                        name="weight"
-                        inputType={'text'}
-                        content={this.props.weight} 
-                        controlFunc={this.props.handleChange}
-                        placeholder="Weight"
-                    />
+                    <button href="#" onClick={this.props.handleWeightToggle}>{this.props.kg ? 'lbs' : 'kg'}</button>
+
+                    {(this.props.kg) && 
+                        <SingleInput 
+                            title="Weight (kg)"
+                            name="weight"
+                            inputType={'text'}
+                            content={this.props.weight} 
+                            controlFunc={this.props.handleChange}
+                            placeholder="Weight kg"
+                            required={true}
+                        />
+                    }
+                    
+                    {(this.props.lbs) &&
+                        <SingleInput 
+                            title="Weight (lbs)"
+                            name="weight"
+                            inputType={'text'}
+                            content={this.props.weight} 
+                            controlFunc={this.props.handleChange}
+                            placeholder="Weight lbs"
+                        />
+                    }
 
                     <CheckboxOrRadioGroup
                         title={'Gender:'}

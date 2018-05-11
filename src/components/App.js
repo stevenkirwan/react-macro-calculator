@@ -38,9 +38,11 @@ class App extends Component {
 
     this.state = {
       intState: false,
-      age: 29,
-      height: 183,
-      weight: 88,
+      age: '33',
+      height: '170',
+      weight: '',
+      kg: true,
+      lbs: false,
       gender: 'Male',
       genderSelections: ['Male', 'Female'],
       goal: 'Maintain',
@@ -73,48 +75,60 @@ class App extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getResult = this.getResult.bind(this);
+    this.handleWeightToggle = this.handleWeightToggle.bind(this);
   }
 
   getResult(){
-    // Get Activily level
-    const activityLevel = func.getActivityLevel(this.state.activityLevel);
+      // Get Activily level
+      const activityLevel = func.getActivityLevel(this.state.activityLevel);
+      
+      // Get REE ( Resting energy expenditure )
+      let REE;
+      if(this.state.kg){
+        REE = func.getREE(this.state.weight, this.state.height, this.state.age, this.state.gender);
+      }else{
+        const weightKg = func.lbsToKg(this.state.weight);
+        REE = func.getREE(weightKg, this.state.height, this.state.age, this.state.gender);
+      }
+
+      // Get TDEE ( Total Daily Energy Expenditure )
+      const TDEE = func.getTDEE(REE, activityLevel);
+
+      // Get calories based on users goal (maintain, lose, gain weight)
+      const calories = func.getGoal(this.state.goal, TDEE);
+
+      // Convert kg to lbs
+      let weightLbs = this.state.weight;
+      if(this.state.kg){
+        weightLbs = func.getKilos(this.state.weight);
+      }else{
+        weightLbs = this.state.weight;
+      }
+
+      // Get grams of protein at .825 body weight in lbs
+      const protein = func.getProtein(weightLbs);
+      // Get calories from protein 
+      const proteinCalories = func.proteinCalories(protein);
+
+      // Get grams of fat
+      const fat = func.getFat(calories);
+      // Get calories from fat
+      const fatCalories = func.fatCalories(fat);
+      
+      // Get leftover calories for carbs 
+      const calorieBalance = func.calorieBalance(proteinCalories, fatCalories, calories);
+
+      // Get carbs
+      const carbs = func.getTotalCarbs(calorieBalance);
     
-    // Get REE ( Resting energy expenditure )
-    const REE = func.getREE(this.state.weight, this.state.height, this.state.age, this.state.gender);
-
-    // Get TDEE ( Total Daily Energy Expenditure )
-    const TDEE = func.getTDEE(REE, activityLevel);
-
-    // Get calories based on users goal (maintain, lose, gain weight)
-    const calories = func.getGoal(this.state.goal, TDEE);
-
-    // Convert kg to lbs
-    const weightLbs = func.getKilos(this.state.weight);
-
-    // Get grams of protein at .825 body weight in lbs
-    const protein = func.getProtein(weightLbs);
-    // Get calories from protein 
-    const proteinCalories = func.proteinCalories(protein);
-
-    // Get grams of fat
-    const fat = func.getFat(calories);
-    // Get calories from fat
-    const fatCalories = func.fatCalories(fat);
-    
-    // Get leftover calories for carbs 
-    const calorieBalance = func.calorieBalance(proteinCalories, fatCalories, calories);
-
-    // Get carbs
-    const carbs = func.getTotalCarbs(calorieBalance);
-  
-    // Update state with new result
-    this.setState({
-      intState: true,
-      calories,
-      protein,
-      fat,
-      carbs
-    })
+      // Update state with new result
+      this.setState({
+        intState: true,
+        calories,
+        protein,
+        fat,
+        carbs
+      })
   }
 
   handleSubmit(e){
@@ -128,12 +142,21 @@ class App extends Component {
     })
   }
 
+  handleWeightToggle(e){
+    e.preventDefault();
+    this.setState({
+      kg: !this.state.kg,
+      lbs: !this.state.lbs
+    })
+  }
+
   render() {
     return (
       <div className="App">
         <Calculator 
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
+          handleWeightToggle={this.handleWeightToggle}
           {...this.state}
         />
       </div>

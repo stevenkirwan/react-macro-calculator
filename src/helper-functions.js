@@ -112,3 +112,8 @@ export const getTotalCarbs = (cals) => {
     var carbs = Math.round(cals / 4);
     return carbs;
 }
+
+export const lbsToKg = (lbs) => {
+    var kg = Math.round(lbs / 2.2046);
+    return kg;
+}

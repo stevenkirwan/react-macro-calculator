@@ -9,7 +9,9 @@ const SingleInput = (props) => (
       type={props.inputType}
       value={props.content}
       onChange={props.controlFunc}
-      placeholder={props.placeholder} />
+      placeholder={props.placeholder} 
+      required={props.required}
+      />
   </div>
 );
 
