@@ -86,6 +86,14 @@ class App extends Component {
   getResult(){
       // Get Activily level
       const activityLevel = func.getActivityLevel(this.state.activityLevel);
+
+      if(this.state.feetRow){
+        const height = func.feetToCm(this.state.feet, this.state.inches).slice(0, 3);
+        console.log(height);
+        this.setState({
+          height
+        })
+      }
       
       // Get REE ( Resting energy expenditure )
       let REE;
@@ -96,20 +104,6 @@ class App extends Component {
         REE = func.getREE(weightKg, this.state.height, this.state.age, this.state.gender);
       }
 
-      // Get TDEE ( Total Daily Energy Expenditure )
-      const TDEE = func.getTDEE(REE, activityLevel);
-
-      // Get calories based on users goal (maintain, lose, gain weight)
-      const calories = func.getGoal(this.state.goal, TDEE);
-
-      if(this.state.feetRow){
-        const height = func.feetToCm(this.state.feet, this.state.inches).slice(0, 3);;
-        console.log(height);
-        this.setState({
-          height
-        })
-      }
-
       // Convert kg to lbs
       let weightLbs = this.state.weight;
       if(this.state.kg){
@@ -117,6 +111,13 @@ class App extends Component {
       }else{
         weightLbs = this.state.weight;
       }
+
+      // Get TDEE ( Total Daily Energy Expenditure )
+      const TDEE = func.getTDEE(REE, activityLevel);
+      console.log('TDEE', TDEE);
+
+      // Get calories based on users goal (maintain, lose, gain weight)
+      const calories = func.getGoal(this.state.goal, TDEE);
 
       // const inches = func.feetToCm(this.state.feet, this.state.inches);
       // console.log(inches);
